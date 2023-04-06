@@ -1,0 +1,78 @@
+php code 
+write database data code {
+  mysqli_query($conn, $sql);
+         $data = 'SELECT * FROM users';
+        $result = mysqli_query($conn, $data);
+        $users = mysqli_fetch_all($result, MYSQLI_ASSOC); 
+        
+        echo $data;
+}
+code php backup {
+
+<?php
+
+$name = $_POST['name'];
+$sname = $_POST['Sname'];
+$phone = $_POST['phone'];
+$pass = $_POST['pass'];
+$email = $_POST['email'];
+$dbuser = "root";
+$dbpass = "root";
+$dbname = "bokamar";
+$host = "localhost:3306";
+$options = array(
+    PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8"
+  );
+  $conn = new PDO("mysql:host=$host;dbname=$dbname", $dbuser, $dbpass, $options);
+$errors=[];
+  if (isset($_POST['sub'])) {
+    
+       try {
+         
+         $sql = "INSERT INTO users(name, sname, phone, password, email) VALUES ('$name', '$sname', '$phone' , '$pass', '$email')";
+         $conn->exec($sql);
+       }catch (PDOException $e) {
+         echo 'eror' . $e->getMassage();
+       }
+       
+       
+       
+      }
+      $sql = "SELECT phone FROM users WHARE phone = '$phone'";
+      $q = $conn->prepare($sql);
+      $q->execute();
+      $data = $q->fetch();
+        echo $data
+
+?>
+
+}
+
+modal  {
+ <?php
+     if (empty($data)) {
+       echo 'g--------';
+       print_r($data);
+     }else { ?>
+       <html>
+         <div class="modal" tabindex="-1">
+           <div class="modal-dialog">
+             <div class="modal-content">
+               <div class="modal-header">
+                 <h5 class="modal-title">Modal title</h5>
+                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+               </div>
+               <div class="modal-body">
+                 <p>Modal body text goes here.</p>
+               </div>
+               <div class="modal-footer">
+                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                 <button type="button" class="btn btn-primary">Save changes</button>
+               </div>
+             </div>
+           </div>
+       </html> <?php
+     }
+   }
+ ?>
+}
